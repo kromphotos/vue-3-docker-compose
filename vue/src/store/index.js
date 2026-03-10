@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import list from './list'
+import ball from './ball'
 
 const MUTATIONS = {
   INCREMENT: 'INCREMENT',
@@ -9,7 +10,7 @@ const MUTATIONS = {
 export default createStore({
   state () {
     return {
-      count: 0
+      count: 100
     }
   },
   getters: {
@@ -37,6 +38,7 @@ export default createStore({
     },
   },
   modules: {
-    list
+    list,
+    ball
   }
 })
