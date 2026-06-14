@@ -24,33 +24,16 @@
         :row="cell.row" 
         :col="cell.col" 
         :cellSize="cellSize"
+        :color="currentFigure.color"
       />
     </div>
   
-    <div v-for = "(bomb, index) in bombs.black" :key = "'bomb-black-' + index">
+    <div v-for = "(bomb, index) in allBombs" :key = "index">
       <Bomb 
-        :row="bomb.row" 
-        :col="bomb.col" 
-        :cellSize="cellSize"
-        type="black"
-      />
-    </div>
-
-    <div v-for = "(bomb, index) in bombs.red" :key = "'bomb-red-' + index">
-      <Bomb 
-        :row="bomb.row" 
-        :col="bomb.col" 
-        :cellSize="cellSize"
-        type="red"
-      />
-    </div>
-
-    <div v-for = "(bomb, index) in bombs.green" :key = "'bomb-green-' + index">
-      <Bomb 
-        :row="bomb.row" 
-        :col="bomb.col" 
-        :cellSize="cellSize"
-        type="green"
+        :row = "bomb.row" 
+        :col = "bomb.col" 
+        :cellSize = "cellSize"
+        :type = "bomb.type"
       />
     </div>
   </div>
@@ -73,8 +56,8 @@ export default {
       default: null
     },
     bombs: {
-      type: Object,
-      default: () => ({ black: [], red: [], green: [] })
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -101,12 +84,17 @@ export default {
       }
     },
     figureCells() {
-    if (!this.currentFigure || this.currentFigure.position.row === -1) return []
-    return this.currentFigure.cells.map(offset => ({
-      row: this.currentFigure.position.row + offset[0],
-      col: this.currentFigure.position.col + offset[1]
-    }))
-  }
+      if (!this.currentFigure || this.currentFigure.position.row === -1) {
+        return []
+      }
+      return this.currentFigure.cells.map(offset => ({
+        row: this.currentFigure.position.row + offset[0],
+        col: this.currentFigure.position.col + offset[1]
+      }))
+    },
+    allBombs() {
+      return this.bombs
+    },
   },
   methods: {
     //является ли клетка частью острова?
@@ -114,7 +102,7 @@ export default {
       return this.islandCells.some(cell => cell[0] === row && cell[1] === col)
     }
   }
-}
+  }
 </script>
 
 <style scoped lang="scss">
